@@ -1,0 +1,25 @@
+{
+  "name": "element-selected",
+  "version": "1.0.0",
+  "description": "catch which html element or svg clicked",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayshon/ElementSelected.git"
+  },
+  "keywords": [
+    "javascript",
+    "document",
+    "click",
+    "element"
+  ],
+  "author": "wayshon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wayshon/ElementSelected/issues"
+  },
+  "homepage": "https://github.com/wayshon/ElementSelected#readme"
+}
