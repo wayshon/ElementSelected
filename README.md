@@ -15,12 +15,14 @@
      * @param {String} mouseType 可选,默认 mousedown
      * @param {HTMLElement} element 可选, 默认 document
      * @return {Array} result, event
-     * result: {uniqueId:'路径',text:'innerText',top,left,viewTop,viewLeft} 
+     * result: {uniqueId:'路径',xPath,text:'innerText',top,left,viewTop,viewLeft} 
      * event: 点击的元素
      */
-    ElementSelected(document, function(result, event) {
+    ElementSelected(function(result, event) {
         console.log(result, event)
-    })
+    }, 'click', document)
+
+    var elements = ElementSelected.getElementByXPath(xPath)
     ```
 
 ### html页面

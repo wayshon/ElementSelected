@@ -1,3 +1,27 @@
+//获取xpath
+function readXPath(element) {
+    if (element.id !== "") {//判断id属性，如果这个元素有id，则显 示//*[@id="xPath"]  形式内容
+        return '//*[@id=\"' + element.id + '\"]';
+    }
+    //这里需要需要主要字符串转译问题，可参考js 动态生成html时字符串和变量转译（注意引号的作用）
+    if (element == document.body) {//递归到body处，结束递归
+        return '/html/' + element.tagName.toLowerCase();
+    }
+    var ix = 1,//在nodelist中的位置，且每次点击初始化
+        siblings = element.parentNode.childNodes;//同级的子元素
+
+    for (var i = 0, l = siblings.length; i < l; i++) {
+        var sibling = siblings[i];
+        //如果这个元素是siblings数组中的元素，则执行递归操作
+        if (sibling == element) {
+            return arguments.callee(element.parentNode) + '/' + element.tagName.toLowerCase() + '[' + (ix) + ']';
+            //如果不符合，判断是否是element元素，并且是否是相同元素，如果是相同的就开始累加
+        } else if (sibling.nodeType == 1 && sibling.tagName == element.tagName) {
+            ix++;
+        }
+    }
+};
+
 function getDeepElement() {
     /**
  * 获取元素位置
@@ -49,6 +73,7 @@ function getDeepElement() {
         var coords = getCoords(element);
         var result = {
             uniqueId: "",
+            xPath: readXPath(element),
             top: coords.top,
             left: coords.left,
             viewLeft: element.getBoundingClientRect().left,
@@ -197,7 +222,7 @@ var deepElement = getDeepElement();
  * @param {String} mouseType 可选,默认 mousedown
  * @param {HTMLElement} element 可选, 默认 document
  * @return {Array} result, event
- * result: {uniqueId:'路径',text:'innerText',top,left,viewTop,viewLeft} 
+ * result: {uniqueId:'路径',xPath,text:'innerText',top,left,viewTop,viewLeft} 
  * event: 点击的元素
  */
 var ElementSelected = function (callback, mouseType, element) {
@@ -209,6 +234,16 @@ var ElementSelected = function (callback, mouseType, element) {
             callback(result, event);
         }
     }, false)
+}
+
+ElementSelected.getElementByXPath = function (STR_XPATH) {
+    var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+    var xnodes = [];
+    var xres;
+    while (xres = xresult.iterateNext()) {
+        xnodes.push(xres);
+    }
+    return xnodes;
 }
 
 if (typeof (module) !== "undefined" && module.exports) {
