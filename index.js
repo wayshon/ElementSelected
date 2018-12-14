@@ -14,7 +14,7 @@ function readXPath(element) {
         var sibling = siblings[i];
         //如果这个元素是siblings数组中的元素，则执行递归操作
         if (sibling == element) {
-            return arguments.callee(element.parentNode) + '/' + element.tagName.toLowerCase() + '[' + (ix) + ']';
+            return readXPath(element.parentNode) + '/' + element.tagName.toLowerCase() + '[' + (ix) + ']';
             //如果不符合，判断是否是element元素，并且是否是相同元素，如果是相同的就开始累加
         } else if (sibling.nodeType == 1 && sibling.tagName == element.tagName) {
             ix++;
@@ -66,7 +66,7 @@ function getDeepElement() {
         }
 
         if (this.resultsMap) {
-            let result = this.resultsMap.get(element);
+            var result = this.resultsMap.get(element);
             if (result) return result;
         }
 
